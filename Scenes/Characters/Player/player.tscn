@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://woh7fug547tq"]
+
+[ext_resource type="Texture2D" uid="uid://bl8yes1e6jhkj" path="res://Assets/Sprites/Characters/Chavacter.png" id="1_i5sud"]
+[ext_resource type="Script" path="res://Scenes/Characters/Player/player.gd" id="1_nxowb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_55com"]
+atlas = ExtResource("1_i5sud")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4on3g"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_55com")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rkalo"]
+size = Vector2(10, 14)
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_nxowb")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_4on3g")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_rkalo")
