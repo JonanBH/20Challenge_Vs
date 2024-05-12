@@ -20,8 +20,8 @@ GravityManager="*res://Autoload/gravity_manager.gd"
 
 [display]
 
-window/size/viewport_width=512
-window/size/viewport_height=288
+window/size/viewport_width=320
+window/size/viewport_height=240
 window/stretch/mode="canvas_items"
 
 [input]
@@ -53,7 +53,17 @@ interact={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="World"
+2d_physics/layer_2="Character"
+2d_physics/layer_3="Collectables"
+2d_physics/layer_4="Hazards"
+2d_physics/layer_5="Interactable"
+
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+environment/defaults/default_clear_color=Color(0.0823529, 0.0823529, 0.0823529, 1)
