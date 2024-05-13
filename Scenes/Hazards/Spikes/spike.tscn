@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://d2bfrxisjhfok"]
+
+[ext_resource type="Texture2D" uid="uid://b3pb7h2a7lckb" path="res://Assets/Sprites/Tilemap/VTilemap.png" id="1_jl707"]
+[ext_resource type="PackedScene" uid="uid://bw8eqq4b0bjln" path="res://Scenes/Hazards/HurtBox/hurt_box.tscn" id="2_a8trw"]
+
+[node name="Spike" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_jl707")
+region_enabled = true
+region_rect = Rect2(96, 0, 8, 8)
+
+[node name="HurtBox" parent="." instance=ExtResource("2_a8trw")]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HurtBox"]
+polygon = PackedVector2Array(-3, 3, 0, -2, 3, 3)

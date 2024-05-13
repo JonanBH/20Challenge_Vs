@@ -24,6 +24,10 @@ window/size/viewport_width=320
 window/size/viewport_height=240
 window/stretch/mode="canvas_items"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg")
+
 [input]
 
 right={
@@ -56,7 +60,7 @@ interact={
 [layer_names]
 
 2d_physics/layer_1="World"
-2d_physics/layer_2="Character"
+2d_physics/layer_2="Player"
 2d_physics/layer_3="Collectables"
 2d_physics/layer_4="Hazards"
 2d_physics/layer_5="Interactable"
