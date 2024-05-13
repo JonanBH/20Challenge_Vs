@@ -1,12 +1,15 @@
 extends CharacterBody2D
-
+class_name Player
 
 @export var SPEED = 200.0
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+var is_alive := true
 
-@onready var animated_sprite_2d = $AnimatedSprite2D
+@onready var sprite_2d = $Sprite2D
+@onready var animation_player = $AnimationPlayer
+@onready var respawn_timer = $RespawnTimer
 
 
 func _ready():
@@ -14,6 +17,10 @@ func _ready():
 
 
 func _physics_process(delta):
+	
+	if !is_alive:
+		return
+	
 	# Add the gravity.
 	var gravity = GravityManager.get_gravity()
 	if not is_on_floor():
@@ -28,7 +35,7 @@ func _physics_process(delta):
 	var direction = Input.get_axis("left", "right")
 	if direction:
 		velocity.x = direction * SPEED
-		animated_sprite_2d.flip_h = velocity.x < 0
+		sprite_2d.flip_h = velocity.x < 0
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 
@@ -36,5 +43,16 @@ func _physics_process(delta):
 
 
 func _update_sprite_horizontal_flip():
-	animated_sprite_2d.flip_v = GravityManager.current_gravity_state == GravityManager.State.INVERTED
+	sprite_2d.flip_v = GravityManager.current_gravity_state == GravityManager.State.INVERTED
 	up_direction = (GravityManager.get_gravity()).normalized() * -1
+
+
+func take_damage():
+	is_alive = false
+	animation_player.play("died")
+	respawn_timer.start()
+
+
+func _on_respawn_timer_timeout():
+	# TODO : Respawn code
+	is_alive = true

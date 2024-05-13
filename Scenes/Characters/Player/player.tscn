@@ -1,33 +1,109 @@
-[gd_scene load_steps=6 format=3 uid="uid://woh7fug547tq"]
+[gd_scene load_steps=8 format=3 uid="uid://woh7fug547tq"]
 
 [ext_resource type="Texture2D" uid="uid://bl8yes1e6jhkj" path="res://Assets/Sprites/Characters/Chavacter.png" id="1_i5sud"]
 [ext_resource type="Script" path="res://Scenes/Characters/Player/player.gd" id="1_nxowb"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_p5f4i"]
-atlas = ExtResource("1_i5sud")
-region = Rect2(0, 0, 10, 20)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_4on3g"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_p5f4i")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rkalo"]
 size = Vector2(6, 19)
 
+[sub_resource type="Animation" id="Animation_l35ef"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_8nc6t"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_i8gfa"]
+resource_name = "died"
+step = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:modulate")
+tracks/1/interp = 0
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 2,
+"values": [Color(1, 1, 1, 1), Color(1, 0.0179029, 0, 1), Color(1, 1, 1, 1), Color(1, 0.00697017, 0, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_sgsmm"]
+_data = {
+"RESET": SubResource("Animation_8nc6t"),
+"died": SubResource("Animation_i8gfa"),
+"idle": SubResource("Animation_l35ef")
+}
+
 [node name="Player" type="CharacterBody2D"]
+collision_layer = 2
 script = ExtResource("1_nxowb")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-texture_filter = 1
-sprite_frames = SubResource("SpriteFrames_4on3g")
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_i5sud")
+hframes = 4
+vframes = 4
+region_rect = Rect2(0, 0, 10, 20)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_rkalo")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_sgsmm")
+}
+autoplay = "idle"
+
+[node name="RespawnTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="RespawnTimer" to="." method="_on_respawn_timer_timeout"]
