@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://dmotv5wm8k7g8"]
+
+[ext_resource type="Texture2D" uid="uid://b3pb7h2a7lckb" path="res://Assets/Sprites/Tilemap/VTilemap.png" id="1_254wj"]
+[ext_resource type="Script" path="res://Scenes/Managers/Checkpoint/checkpoint.gd" id="1_esw2d"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v1arx"]
+size = Vector2(8, 15)
+
+[node name="Checkpoint" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_esw2d")
+
+[node name="DisabledSprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_254wj")
+region_enabled = true
+region_rect = Rect2(112, 0, 8, 16)
+
+[node name="EnabledSprite" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("1_254wj")
+region_enabled = true
+region_rect = Rect2(120, 0, 8, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_v1arx")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

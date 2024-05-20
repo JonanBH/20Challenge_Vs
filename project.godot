@@ -17,6 +17,8 @@ config/icon="res://icon.svg"
 [autoload]
 
 GravityManager="*res://Autoload/gravity_manager.gd"
+PortalManager="*res://Autoload/portal_manager.gd"
+CheckpointManager="*res://Autoload/checkpoint_manager.gd"
 
 [display]
 

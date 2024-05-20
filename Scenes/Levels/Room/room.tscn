@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://7uh07rpkmybb"]
+
+[ext_resource type="TileSet" uid="uid://cjkm030434ueh" path="res://Resources/Tileset/default_tileset.tres" id="1_joimj"]
+[ext_resource type="Script" path="res://Scenes/Levels/Room/room.gd" id="1_w0s66"]
+[ext_resource type="PackedScene" uid="uid://cc2t3fjbvg8o5" path="res://Scenes/Levels/Portal/portal.tscn" id="3_07tcf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wwnmn"]
+size = Vector2(312, 232)
+
+[node name="Room" type="Node2D" node_paths=PackedStringArray("target_camera")]
+script = ExtResource("1_w0s66")
+target_camera = NodePath("Camera2D")
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource("1_joimj")
+format = 2
+layer_0/name = "Walls"
+layer_1/name = "Spawnables"
+layer_1/tile_data = PackedInt32Array()
+
+[node name="Camera2D" type="Camera2D" parent="."]
+enabled = false
+
+[node name="Portals" type="Node2D" parent="."]
+
+[node name="Portal" parent="Portals" node_paths=PackedStringArray("connector_room") instance=ExtResource("3_07tcf")]
+input_pickable = false
+connector_room = NodePath("../..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Portals/Portal"]
+shape = SubResource("RectangleShape2D_wwnmn")
+
+[node name="Hazards" type="Node" parent="."]
+
+[node name="Checkpoints" type="Node" parent="."]
