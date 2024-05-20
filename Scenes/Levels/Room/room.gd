@@ -13,12 +13,14 @@ const SPIKE = preload("res://Scenes/Hazards/Spikes/spike.tscn")
 func _ready():
 	_place_spawnables()
 
+
 func enable():
-	PortalManager.change_camera_to(camera_2d)
+	#PortalManager.change_camera_to(camera_2d)
+	camera_2d.enabled = true
 
 
 func disable():
-	pass
+	camera_2d.enabled = false
 
 
 func _place_spawnables():

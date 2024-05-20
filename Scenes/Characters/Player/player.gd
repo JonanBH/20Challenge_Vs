@@ -13,6 +13,7 @@ var is_alive := true
 
 
 func _ready():
+	CheckpointManager.player = self
 	GravityManager.gravity_changed.connect(_update_sprite_horizontal_flip)
 
 
@@ -56,3 +57,4 @@ func take_damage():
 func _on_respawn_timer_timeout():
 	# TODO : Respawn code
 	is_alive = true
+	CheckpointManager.respawn()
