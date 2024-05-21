@@ -1,0 +1,88 @@
+[gd_scene load_steps=12 format=3 uid="uid://dwtu44k65q4ak"]
+
+[ext_resource type="Script" path="res://Scenes/Obstacles/DissolvingBlock/dissolving_block.gd" id="1_fs1ec"]
+[ext_resource type="Texture2D" uid="uid://b3pb7h2a7lckb" path="res://Assets/Sprites/Tilemap/VTilemap.png" id="2_5le6d"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u10tj"]
+atlas = ExtResource("2_5le6d")
+region = Rect2(96, 16, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f36k8"]
+atlas = ExtResource("2_5le6d")
+region = Rect2(96, 16, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tr2oi"]
+atlas = ExtResource("2_5le6d")
+region = Rect2(104, 16, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d2ymt"]
+atlas = ExtResource("2_5le6d")
+region = Rect2(112, 16, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oi40x"]
+atlas = ExtResource("2_5le6d")
+region = Rect2(120, 16, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ssve4"]
+atlas = ExtResource("2_5le6d")
+region = Rect2(96, 24, 8, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lf04e"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u10tj")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f36k8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tr2oi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d2ymt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oi40x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ssve4")
+}],
+"loop": false,
+"name": &"dissolve",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ctli5"]
+size = Vector2(8, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_27thj"]
+size = Vector2(10, 10)
+
+[node name="DissolvingBlock" type="StaticBody2D"]
+collision_mask = 0
+script = ExtResource("1_fs1ec")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_lf04e")
+animation = &"dissolve"
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ctli5")
+
+[node name="PlayerDetection" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetection"]
+shape = SubResource("RectangleShape2D_27thj")
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="body_entered" from="PlayerDetection" to="." method="_on_player_detection_body_entered"]

@@ -1,9 +1,13 @@
 extends Node
+
+signal player_died
+
 var current_checkpoint : Checkpoint
 var player : Player
 
 func respawn():
 	player.global_position = current_checkpoint.global_position
+	player_died.emit()
 	
 	if current_checkpoint.is_upside_down:
 		GravityManager.set_gravity(GravityManager.State.INVERTED)

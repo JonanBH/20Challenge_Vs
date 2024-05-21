@@ -1,0 +1,88 @@
+[gd_scene load_steps=11 format=3 uid="uid://bmqoaxnbbhstu"]
+
+[ext_resource type="Script" path="res://Scenes/Obstacles/MovingPlatform/moving_platform.gd" id="1_e25n6"]
+[ext_resource type="Texture2D" uid="uid://b3pb7h2a7lckb" path="res://Assets/Sprites/Tilemap/VTilemap.png" id="1_x1s3x"]
+
+[sub_resource type="Curve2D" id="Curve2D_5mep6"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -128, 0, 0, 0, 0, 0, 256, 0)
+}
+point_count = 2
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wf7pq"]
+size = Vector2(24, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fcxmg"]
+atlas = ExtResource("1_x1s3x")
+region = Rect2(0, 32, 24, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hlwux"]
+atlas = ExtResource("1_x1s3x")
+region = Rect2(24, 32, 24, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_35cmw"]
+atlas = ExtResource("1_x1s3x")
+region = Rect2(48, 32, 24, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fdj4r"]
+atlas = ExtResource("1_x1s3x")
+region = Rect2(72, 32, 24, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mkgne"]
+atlas = ExtResource("1_x1s3x")
+region = Rect2(96, 32, 24, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_edgbr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fcxmg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hlwux")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_35cmw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fdj4r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mkgne")
+}],
+"loop": true,
+"name": &"default",
+"speed": 7.0
+}]
+
+[node name="MovingPlatform" type="Path2D"]
+curve = SubResource("Curve2D_5mep6")
+script = ExtResource("1_e25n6")
+
+[node name="Platform" type="PathFollow2D" parent="."]
+position = Vector2(-128, 0)
+rotates = false
+cubic_interp = false
+loop = false
+
+[node name="StaticBody2D" type="CharacterBody2D" parent="Platform"]
+collision_mask = 0
+motion_mode = 1
+wall_min_slide_angle = 0.0
+platform_on_leave = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platform/StaticBody2D"]
+shape = SubResource("RectangleShape2D_wf7pq")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Platform/StaticBody2D"]
+sprite_frames = SubResource("SpriteFrames_edgbr")
+frame_progress = 0.706071
+
+[node name="RespawnTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="TimerToChangeDirection" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="RespawnTimer" to="." method="_on_respawn_timer_timeout"]
+[connection signal="timeout" from="TimerToChangeDirection" to="." method="_on_timer_to_change_direction_timeout"]

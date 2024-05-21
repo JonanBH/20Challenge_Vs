@@ -1,5 +1,7 @@
 extends Node
 
+signal player_left_room
+
 var camera : Camera2D
 
 var screen_width = 320

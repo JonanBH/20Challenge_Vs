@@ -33,3 +33,5 @@ shape = SubResource("RectangleShape2D_wwnmn")
 [node name="Hazards" type="Node" parent="."]
 
 [node name="Checkpoints" type="Node" parent="."]
+
+[node name="Obstacles" type="Node" parent="."]
